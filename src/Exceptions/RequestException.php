@@ -20,8 +20,8 @@ class RequestException extends \Exception {
     {
         $this->requestBody = $requestBody;
         $error = json_decode($requestBody, true);
-        $this->errorCode = $error[0]['errorCode'];
-        parent::__construct($error[0]['message']);
+        $this->errorCode = $error['errorCode'];
+        parent::__construct($error['message']);
     }
 
     /**
