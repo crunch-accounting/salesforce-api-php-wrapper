@@ -10,7 +10,7 @@ A simple library for interacting with the Salesforce REST API.
 Methods for setting up a connection, requesting an access token, refreshing the access token, saving the access token, and making calls against the API.
 
 
-##Getting started
+## Getting started
 
 __Installation:__
 The package should be installed through composer and locked to a major version
@@ -59,7 +59,7 @@ print_r($results);
 
 The token will expire after an hour so you should make sure you're checking the expiry time and refreshing accordingly.
 
-##Setting up the Salesforce client
+## Setting up the Salesforce client
 
 The client can be configured in two ways, you can call the static create method above passing in the login url and oauth 
 details or you can use a configuration object as in the example below. This is useful when you need to resolve 
@@ -110,7 +110,7 @@ $sfClient = new \Crunch\Salesforce\Client($sfConfig, new GuzzleHttp\Client());
 
 ```
 
-##Authentication
+## Authentication
 Authentication happens via oauth2 and the login url can be generated using the `getLoginUrl` method, you should pass this your return url for the send stage of the oauth process.
 
 ```php
@@ -136,7 +136,7 @@ $accessToken = $tokenGenerator->createFromSalesforceResponse($token);
 
 ```
 
-###Storing the access token
+### Storing the access token
 This access token should be stored. A method to store this on the file system is provided but this isn't required.
 
 The example above uses the php session to achieve the same result.
@@ -172,7 +172,7 @@ $accessToken = $tokenStore->fetchAccessToken();
 
 ```
 
-###Refreshing the token
+### Refreshing the token
 The access token only lasts 1 hour before expiring so you should regularly check its status and refresh it accordingly.
 
 ```php
@@ -187,7 +187,7 @@ if ($accessToken->needsRefresh()) {
 
 ```
 
-##Making requests
+## Making requests
 
 Before making a request you should instantiate the client as above and then assign the access token to it.
 
@@ -199,7 +199,7 @@ $sfClient->setAccessToken($accessToken);
 
 ```
 
-###Performing an SOQL Query
+### Performing an SOQL Query
 This is a powerful option for performing general queries against your salesforce data.
 Simply pass a valid query to the search method and the resulting data will be returned.
 
@@ -208,7 +208,7 @@ $data = $sfClient->search('SELECT Email, Name FROM Lead LIMIT 10');
 
 ```
 
-###Fetching a single record
+### Fetching a single record
 If you know the id and type of a record you can fetch a set of fields from it.
 
 ```php
@@ -216,7 +216,7 @@ $data = $sfClient->getRecord('Lead', '00WL0000008wVl1MDE', ['name', 'email', 'ph
 
 ```
 
-###Creating and updating records
+### Creating and updating records
 The process for creating and updating records is very similar and can be performed as follows.
 The createRecord method will return the id of the newly created record.
 
@@ -227,7 +227,7 @@ $sfClient->updateRecord('Lead', '00WL0000008wVl1MDE', ['lastName' => 'Steve Jobs
 
 ```
 
-###Deleting records
+### Deleting records
 Records can be deleted based on their id and type.
 
 ```php
@@ -235,7 +235,7 @@ $sfClient->deleteRecord('Lead', '00WL0000008wVl1MDE');
 
 ```
 
-##Errors
+## Errors
 If something goes wrong the library will throw an exception. 
 
 If its an authentication exception such as an expired token this will be as `Crunch\Salesforce\Exceptions\AuthenticationException`,
