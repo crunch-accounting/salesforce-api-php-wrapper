@@ -1,8 +1,9 @@
-<?php namespace Crunch\Salesforce\Exceptions;
+<?php
+
+namespace Akeneo\SalesForce\Exception;
 
 class RequestException extends \Exception
 {
-
     /**
      * @var string
      */
@@ -24,20 +25,14 @@ class RequestException extends \Exception
 
         //Errors generated during the auth stage are different to those generated during normal requests
         if (isset($error['error']) && isset($error['error_description'])) {
-
             $this->errorCode = $error['error'];
             parent::__construct($error['error_description']);
-
-        } else if (isset($error[0]['message'])) {
-
+        } elseif (isset($error[0]['message'])) {
             $this->errorCode = $error[0]['errorCode'];
             parent::__construct($error[0]['message']);
-
         } else {
-
             $this->errorCode = $error['errorCode'];
             parent::__construct($error['message']);
-
         }
     }
 
@@ -56,5 +51,4 @@ class RequestException extends \Exception
     {
         return $this->errorCode;
     }
-
 }

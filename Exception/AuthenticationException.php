@@ -1,7 +1,9 @@
-<?php namespace Crunch\Salesforce\Exceptions;
+<?php
 
-class AuthenticationException extends \Exception {
+namespace Akeneo\SalesForce\Exception;
 
+class AuthenticationException extends \Exception
+{
     /**
      * @var string
      */

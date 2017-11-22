@@ -1,10 +1,11 @@
-<?php namespace Crunch\Salesforce;
+<?php
+
+namespace Akeneo\SalesForce\Authentification;
 
 use Carbon\Carbon;
 
 class AccessToken
 {
-
     /**
      * @var string
      */
@@ -83,16 +84,15 @@ class AccessToken
         $this->apiUrl       = $apiUrl;
     }
 
-
     public function updateFromSalesforceRefresh(array $salesforceToken)
     {
-        $this->dateIssued = Carbon::createFromTimestamp((int)($salesforceToken['issued_at'] / 1000));
+        $this->dateIssued = Carbon::createFromTimestamp((int) ($salesforceToken[TokenFields::ISSUED_AT] / 1000));
 
         $this->dateExpires = $this->dateIssued->copy()->addHour()->subMinutes(5);
 
-        $this->signature = $salesforceToken['signature'];
+        $this->signature = $salesforceToken[TokenFields::SIGNATURE];
 
-        $this->accessToken = $salesforceToken['access_token'];
+        $this->accessToken = $salesforceToken[TokenFields::ACCESS_TOKEN];
     }
 
     /**
@@ -103,27 +103,27 @@ class AccessToken
         return $this->dateExpires->lt(Carbon::now());
     }
 
-
     /**
      * @return array
      */
     public function toArray()
     {
         return [
-            'id'           => $this->id,
-            'dateIssued'   => $this->dateIssued->format('Y-m-d H:i:s'),
-            'dateExpires'  => $this->dateExpires->format('Y-m-d H:i:s'),
-            'scope'        => $this->scope,
-            'tokenType'    => $this->tokenType,
-            'refreshToken' => $this->refreshToken,
-            'signature'    => $this->signature,
-            'accessToken'  => $this->accessToken,
-            'apiUrl'       => $this->apiUrl,
+            TokenFields::ID            => $this->id,
+            TokenFields::DATE_ISSUED   => $this->dateIssued->format(TokenFields::DATE_ISSUED_FORMAT),
+            TokenFields::DATE_EXPIRES  => $this->dateExpires->format(TokenFields::DATE_EXPIRES_FORMAT),
+            TokenFields::SCOPE         => $this->scope,
+            TokenFields::TOKEN_TYPE    => $this->tokenType,
+            TokenFields::REFRESH_TOKEN => $this->refreshToken,
+            TokenFields::SIGNATURE     => $this->signature,
+            TokenFields::ACCESS_TOKEN  => $this->accessToken,
+            TokenFields::API_URL       => $this->apiUrl,
         ];
     }
 
     /**
      * @param int $options
+     *
      * @return string
      */
     public function toJson($options = 0)
@@ -186,5 +186,4 @@ class AccessToken
     {
         return $this->apiUrl;
     }
-
 }
